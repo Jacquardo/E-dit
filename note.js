@@ -336,7 +336,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const username = usernameField.value;
     const password = passwordField.value;
 
-    if (username === "jacquardo" && password === "karlit2025R") {
+    if (username === "admin" && password === "edit2025E") {
       alert("Connexion réussie !");
       modal.style.display = "none"; // Fermer la modale
       document.body.classList.remove("modal-active");
