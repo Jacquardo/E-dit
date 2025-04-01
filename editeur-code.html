@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="notes.png">
+  <title>Éditeur de Code HTML avec Coloration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/theme/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/addon/edit/closetag.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/addon/search/search.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/addon/search/searchcursor.min.js"></script>
+  <style>
+    body { 
+    font-family: Arial, sans-serif; 
+    background: linear-gradient(135deg, #1E90FF, #87CEEB); 
+    color: #f8f8f2; 
+    margin: 20px; 
+
+    h1 { text-align: center; color: #73ff70; }
+
+    #layoutContainer { 
+    display: flex; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+}
+
+#editorContainer:focus, #outputContainer:focus {
+border-color: #99e0ef; 
+    box-shadow: 0 0 5px rgba(80, 250, 123, 0.8); 
+    outline: none;
+}
+   #editorContainer, #outputContainer {
+    flex: 1;
+    max-width: 50%;
+    border: 2px solid #0056b3;
+    height: 500px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.CodeMirror { 
+    height: 100% !important; 
+}
+    #outputContainer { 
+    position: relative;
+}
+
+
+    #outputContainer button {
+      display: block;
+      margin: 10px auto; /* Centre horizontalement */
+      background-color: #007BFF;
+      color: white;
+      border: 2px solid #0056b3;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s, transform 0.3s;
+       width: 90%; /* Ajuste la largeur ici, exemple : 90% du conteneur */
+  max-width: 300px; /* Limite maximale pour éviter une trop grande extension */
+    }
+
+    iframe { width: 100%; height: calc(100% - 50px); border: none; /* Ajuste la hauteur avec le bouton inclus */ }
+
+    .highlight { background-color: #d0f7e8; color: #045298; }
+
+    nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      color: var(--light-text);
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+      font-weight: bold;
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+      color: #3741ef;
+    }
+
+    button {
+    background-color: #007BFF; 
+    color: white; 
+    border: 2px solid #0056b3; 
+    padding: 5px 10px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
+}
+
+button:active {
+    transform: translateY(0); 
+    background-color: #003f7f; 
+}
+
+#searchBar {
+    padding: 5px 10px; 
+    font-size: 16px; 
+    border: 2px solid #007BFF; 
+    border-radius: 5px; 
+    background-color: #282a36; 
+    color: white; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#searchBar:focus {
+    border-color: #99e0ef; 
+    box-shadow: 0 0 5px rgba(80, 250, 123, 0.8); 
+    outline: none;
+}
+
+    .fondex  {
+    background-color: #475a6b; /* Fond sombre pour le champ */
+    padding: 5px 20px; /* Espace interne pour plus de confort */
+    }
+
+/* heure */
+#heure {
+  font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  background: #222;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <p id="heure"></p>
+<script>
+  function afficherHeure() {
+    const options = { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    document.getElementById("heure").textContent = new Date().toLocaleTimeString("fr-FR", options);
+  }
+  setInterval(afficherHeure, 1000);
+  afficherHeure();
+</script>
+
+  <nav>
+    <a href="acceuil.html" id="Accueil">Accueil</a>
+    <a href="note.html" id="GestionNotes">Gestion de Notes</a>
+    <a href="editeur-code.html" id="EditeurCode">Éditeur de Code</a>
+  </nav>
+
+  <h1>Éditeur de Code</h1>
+  <label for="searchBar">Rechercher :</label>
+  <input id="searchBar" type="text" placeholder="Tapez votre recherche...">
+  <button onclick="validateSearch()">Valider</button>
+  <button id="nextButton" onclick="findNext()" style="display: none;">Suivant</button>
+  <button onclick="resetEditor()">Réinitialiser</button>
+  <button onclick="addListItem()">Ajouter une Puce</button>
+  <button onclick="addBlock()">Ajouter un Bloc</button>
+  <button onclick="addCSSBlock()">Ajouter du CSS</button>
+  <button onclick="addNavbar()">Ajouter une Barre de Navigation</button>
+
+
+  <div id="layoutContainer">
+    <div id="editorContainer">
+      <textarea id="codeEditor"></textarea>
+    </div>
+    <div id="outputContainer">
+     <div class="fondex">
+      <button onclick="runCode()">EXECUTER</button>
+     </div>
+      <iframe id="outputFrame" sandbox="allow-scripts"></iframe>
+
+    </div>
+  </div>
+  <script>
+    const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+      mode: "htmlmixed", lineNumbers: true, autoCloseTags: true, theme: "dracula"
+    });
+    editor.setValue('<!DOCTYPE html>\n<html>\n  <head>\n    <title>Exemple</title>\n  </head>\n  <body>\n    <h1>Hello World!</h1>\n  </body>\n</html>');
+
+    let markedText = [];
+
+    function validateSearch() {
+      const query = document.getElementById('searchBar').value.trim();
+      clearHighlights();
+      if (!query) return alert('Veuillez entrer un mot-clé à rechercher.');
+      const cursor = editor.getSearchCursor(query);
+      while (cursor.findNext()) {
+        markedText.push(editor.markText(cursor.from(), cursor.to(), { className: 'highlight' }));
+      }
+      document.getElementById('nextButton').style.display = markedText.length ? 'inline-block' : 'none';
+    }
+
+    function findNext() {
+      const query = document.getElementById('searchBar').value.trim();
+      const cursor = editor.getSearchCursor(query);
+      if (cursor.findNext()) {
+        editor.setSelection(cursor.from(), cursor.to());
+      } else {
+        alert('Aucune autre correspondance trouvée.');
+      }
+    }
+
+    function clearHighlights() {
+      markedText.forEach(mark => mark.clear());
+      markedText = [];
+      document.getElementById('nextButton').style.display = 'none';
+    }
+
+
+    function runCode() {
+      const htmlCode = editor.getValue().trim();
+      if (!htmlCode) return alert('Erreur : le code HTML est vide.');
+      const outputFrame = document.getElementById('outputFrame');
+      outputFrame.srcdoc = htmlCode;
+    }
+
+    // Fonction pour ajouter une puce
+    function addListItem() {
+      const cursor = editor.getCursor(); // Récupère la position du curseur
+      const listItem = "<li>Nouvel Élément</li>"; // Code à insérer
+      editor.replaceRange(listItem, cursor); // Insère le code à la position du curseur
+    }
+ 
+    // Fonction pour ajouter un bloc
+    function addBlock() {
+      const cursor = editor.getCursor(); // Position actuelle du curseur
+      const block = `<div class="block">\n  <h1>Titre</h1>\n  <p>Paragraphe de description.</p>\n</div><style>.block {
+  width: 300px;
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.block:hover {
+  transform: scale(1.05);
+}</style>\n`; // Contenu du bloc
+      editor.replaceRange(block, cursor); // Insère le bloc à la position du curseur
+    }
+
+    // Fonction pour ajouter un bloc CSS
+    function addCSSBlock() {
+      const cursor = editor.getCursor(); // Position actuelle du curseur
+      const cssBlock = `<style>/* Bloc CSS */\nbody {\n  background-color: #f0f0f0;\n  color: #333;\n  font-family: Arial, sans-serif;\n}\nh1 {\n  color: #4CAF50;\n  text-align: center;\n}ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+}
+
+li:hover {
+  background: #e9ecef;
+}
+\n </style>`; // Contenu CSS
+      editor.replaceRange(cssBlock, cursor); // Insère le CSS à la position du curseur
+    }
+   
+   // Fonction pour ajouter une barre de navigation
+    function addNavbar() {
+      const cursor = editor.getCursor(); // Position actuelle du curseur
+      const navbar = `<nav>\n  <ul>\n    <li><a href="#accueil">Accueil</a></li>\n    <li><a href="#services">Services</a></li>\n    <li><a href="#contact">Contact</a></li>\n  </ul>\n</nav>\n<style>\n  nav {\n    background-color: #4CAF50;\n    padding: 10px;\n  }\n  nav ul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    display: flex;\n    justify-content: space-around;\n  }\n  nav li {\n    display: inline;\n  }\n  nav a {\n    color: white;\n    text-decoration: none;\n    font-weight: bold;\n  }\n  nav a:hover {\n    text-decoration: underline;\n  }\n</style>\n`; // Contenu de la barre de navigation
+      editor.replaceRange(navbar, cursor); // Insère le code dans l'éditeur
+    }
+
+
+  </script>
+</body>
+</html>

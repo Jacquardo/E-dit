@@ -1,0 +1,495 @@
+:root {
+  --primary-color: #1E90FF; /* Bleu clair */
+  --primary-hover: #4682B4; /* Bleu plus foncé */
+  --delete-color: #FF3B3B;
+  --delete-hover: #C32E2E;
+  --cancel-color: #FF9800;
+  --cancel-hover: #F57C00;
+  --secondary-color: #6C757D;
+  --secondary-hover: #495057;
+  --dark-bg: #121212;
+  --dark-text: #f1f1f1;
+  --light-bg: #f5f5f5;
+  --light-text: black;
+  --dark-green: #006400;
+
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-image: linear-gradient(135deg, #1E90FF 30%, #87CEEB 100%); /* Fond bleu avec un dégradé */
+  background-size: cover;
+}
+
+body.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+body.dark-mode li:hover {
+  background-color: #333; /* Fond sombre pour contraste */
+  color: var(--dark-text); /* Texte clair */
+}
+
+body.dark-mode nav a {
+  color: var(--dark-text); /* Texte clair */
+}
+
+body.dark-mode nav a:hover {
+  text-decoration: underline; /* Optionnel */
+  color: #3741ef; /* Couleur contrastée */
+}
+
+body.dark-mode h1 {
+  color: lightgreen; /* Vert clair en mode sombre */
+}
+
+
+h1 {
+  text-align: center;
+  color: var(--dark-green);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Ombre portée sur le titre */
+}
+
+ 
+nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+nav a {
+  color: var(--light-text);
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+nav a:hover {
+      text-decoration: underline;
+      color: #3741ef;
+    }
+
+button:focus, nav a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+#refreshButton {
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  float: right;
+}
+
+#refreshButton:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+input {
+  margin: 10px;
+  padding: 5px;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(30, 144, 255, 0.7); /* Effet de focus bleu */
+}
+
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#searchBar {
+    width: 50%; /* Ajuste la largeur */
+    padding: 8px;
+    margin-top: 5px; /* Espacement entre le label et l'input */
+}
+
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+li:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02); /* Ajout d'animation */
+}
+
+body.dark-mode li:hover {
+  background-color: #444;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.2);
+}
+
+button {
+  margin-left: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.btn-delete {
+  background-color: var(--delete-color);
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: var(--delete-hover);
+}
+
+.btn-add {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-cancel {
+  background-color: var(--cancel-color);
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: var(--cancel-hover);
+}
+
+.btn-format {
+  background-color: var(--secondary-color);
+  color: white;
+  margin-bottom: 10px; /* Espacement entre les boutons */
+  padding: 10px;
+  width: 150px; /* Largeur uniforme pour les boutons */
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-format:hover {
+  background-color: var(--secondary-hover);
+  transform: scale(1.05); /* Légère animation au survol */
+}
+
+#editorToolbar button {
+  margin-right: 5px;
+}
+
+#editorToolbar {
+  display: flex;
+  flex-direction: column; /* Alignement vertical des boutons */
+  align-items: flex-start; /* Aligne les boutons à gauche */
+  position: relative; /* Position relative pour une intégration fluide */
+  margin-right: 20px; /* Ajoute un espace entre le toolbar et le contenu */
+}
+
+
+.container {
+  display: flex; /* Dispose le toolbar et le contenu côte à côte */
+  flex-direction: row; /* Aligne horizontalement */
+  justify-content: flex-start; /* Aligné à gauche */
+  align-items: flex-start; /* Aligne le haut des éléments */
+  gap: 20px; /* Ajoute de l'espace entre les deux éléments */
+}
+
+
+/* Suppression de l'espace vide entre le titre et toolbar */
+#noteTitle {
+  margin-bottom: 5px;
+}
+
+
+#noteContent {
+  background-color: #effbf7; 
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 70%; /* Ajuste la largeur du contenu */
+  min-height: 200px; /* Hauteur minimale pour un bon espace d'édition */
+  overflow-y: auto;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode #noteContent {
+  border-color: #444;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+#noteContent:empty::before {
+  content: "Contenu de la note";
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Styles pour la fenêtre modale */
+#modal {
+  display: none; /* Caché par défaut */
+  position: fixed; /* Position fixe pour centrer par rapport à la page */
+  top: 50%; /* Position en haut */
+  left: 50%; /* Position à gauche */
+  transform: translate(-50%, -50%); /* Centrage parfait en utilisant la translation */
+  background-color: var(--light-bg);
+  color: var(--light-text);
+  padding: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Met la modale au-dessus des autres éléments */
+  visibility: hidden;
+  opacity: 0; /* Transition d'apparence */
+  transition: visibility 0s 0.3s, opacity 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#modal.show {
+  display: block; /* Affiche la modale */
+  visibility: visible;
+  opacity: 1; /* Rends la modale visible */
+  transform: translate(-50%, -50%) scale(1); /* Centrée et avec un effet fluide */
+  transition-delay: 0s;
+}
+
+#modal.fade-in {
+  animation: modalFadeIn 0.3s ease-in-out;
+}
+
+body.dark-mode #modal {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  border-color: var(--primary-hover);
+}
+
+#modalClose, #copy {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#modalClose:hover, #copy:hover {
+  background-color: var(--primary-hover);
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+     transform: translateY(-10px); /* Déplacement léger vers le haut */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Position normale */
+  }
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+
+  #noteContent, input, button {
+    width: 100%;
+  }
+}
+
+#noteContent {
+  color: black !important; /* Force la couleur noire du texte */
+}
+
+
+body.dark-mode #noteContent {
+  color: black !important; /* Force la couleur noire du texte en mode sombre */
+}
+
+/* Style pour le modal de connexion */
+/* Ajout du flou à la page */
+.blur {
+    filter: blur(100px); /* Applique un flou */
+    pointer-events: none; /* Empêche l'interaction avec les éléments flous */
+}
+
+body.modal-active {
+  overflow: hidden;
+}
+
+
+/* Style pour le modal de connexion */
+body.modal-active {
+  overflow: hidden; /* Empêche le défilement de la page */
+}
+
+.modal {
+  display: none; /* Par défaut, la modale est cachée */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Style de la modale */
+.modal {
+    display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Contenu de la modale */
+.modal-content {
+    background-color: #317e8e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+
+   position: absolute;
+   transform: translate(-50%, -50%);
+   top: 50%;
+  left: 50%;
+}
+
+/* Bouton de fermeture */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Style des champs de formulaire */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Style du bouton de soumission */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Masquer le contenu de la page tant que la modale est active */
+#pageContent {
+    display: none;
+}
+
+
+/* heure */
+#heure {
+  font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  background: #222;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+
+
+
+
+
+
+

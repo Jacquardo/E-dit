@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des Notes</title>
+  <link rel="stylesheet" href="note.css">
+  <link rel="icon" type="image/png" href="notes.png">
+  <script src="note.js" defer></script>
+</head>
+ 
+<body>
+
+<button id="logoutButton">Se déconnecter</button>
+<p id="heure"></p>
+<script>
+  function afficherHeure() {
+    const options = { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit", second: "2-digit" };
+    document.getElementById("heure").textContent = new Date().toLocaleTimeString("fr-FR", options);
+  }
+  setInterval(afficherHeure, 1000);
+  afficherHeure();
+</script>
+
+
+<!-- Formulaire de connexion -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h2>Connexion</h2>
+    <form id="loginForm">
+  <label for="username">Nom d'utilisateur :</label>
+  <input type="text" id="username" name="username" required>
+  
+  <label for="password">Mot de passe :</label>
+  <input type="password" id="password" name="password" required>
+  
+  <label>
+    <input type="checkbox" id="rememberMe"> Se souvenir de moi
+  </label>
+  
+  <button type="submit">Se connecter</button>
+</form>
+
+  </div>
+</div>
+
+   
+
+
+
+   <!-- Barre de navigation -->
+  <nav>
+    <a href="acceuil.html" id="Accueil">Accueil</a>
+    <a href="note.html" id="GestionNotes">Gestion de Notes</a>
+    <a href="editeur-code.html" id="EditeurCode">Éditeur de Code</a>
+    <button id="themeToggle" aria-label="Basculer entre le mode clair et sombre">🌙 Mode sombre</button>
+
+
+  </nav>
+
+ <!-- Contenu de la page -->
+  <h1>Gestion des Notes</h1>
+  
+  <h4>Ajoutez vos notes ici</h4>
+  <label for="noteTitle">Titre de la note :</label>
+
+
+  <input id="noteTitle" type="text" placeholder="Titre de la note">
+
+<div class="container"> 
+  <div id="editorToolbar">
+    <button class="btn-format" onclick="applyStyle('bold')">Gras</button>
+    <button class="btn-format" onclick="applyStyle('italic')">Italique</button>
+    <button class="btn-format" onclick="applyStyle('underline')">Souligner</button>
+    <button class="btn-format" onclick="addBullet()">Puces</button>
+    <button class="btn-format" onclick="addCheckbox()">Case à cocher</button>
+  </div>
+
+  <div id="noteContent" contenteditable="true"></div>
+  <p id="errorMessage" style="color: red; display: none;">* Veuillez remplir tous les champs.</p>
+  <button id="actionButton" class="btn-add" onclick="addNote()">Ajouter &#128394; </button>
+  <button id="cancelButton" class="btn-cancel" onclick="cancelEdit()" style="display: none;">Annuler</button>
+</div>
+
+  <button id="refreshButton" onclick="refreshPage()">🔄 Actualiser</button>
+ <div class="search-container">
+  <label for="searchBar">Rechercher 🔍</label>
+  <input id="searchBar" type="text" placeholder="Rechercher par titre " oninput="searchNotes()">
+  </div>
+
+  <ul id="noteList"></ul>
+
+
+  <div id="overlay" onclick="closeModal()"></div>
+  <div id="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalContent">
+    <h2 id="modalTitle"></h2>
+    <div id="modalContent"></div>
+    <button id="modalClose" onclick="closeModal()">Fermer</button>
+    <button id="copy" onclick="copyNoteContent()">📋 Copier</button> 
+  </div>
+
+</body>
+</html>
